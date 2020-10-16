@@ -1,12 +1,61 @@
 <?php get_header(); ?>
 
-			<div id="content">
+	<div class="project-page">
+        <div class="site-wrap">
+            <div class="nav-menu projects">
+                <a href="<?php echo site_url(); ?>">about me</a>
+                <a href="<?php echo site_url("/projects"); ?>">projects</a>
+            </div> 
+		  
+			<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+				<div class="project-content">
+					<div class="row">
+						<div class="col-md-12 col-sm-12 col-lg-8">
+							<?php
+								$project_images = get_field( 'project_header' );
+								if ( $project_images ) : ?>
+									<img class="project-header" src="<?php echo esc_url( $project_images['url'] ); ?>" alt="<?php echo esc_attr( $project_images['alt'] ); ?>" />
+							<?php endif; ?>
+						</div>
+			
+						<div class="col-md-12 col-sm-12 col-lg-4">
+							<div class="project-info">
+								<h2><?php the_title() ?></h2>
+								<h5><?php the_category(', ') ?></h5>
+			
+								<h6><?php the_content() ?></h6>
 
-				<div id="inner-content" class="wrap cf">
+								<?php
+								$link = get_field( 'button_link' );
+								$link_title = $link['title'];
+								
+								if ( $link ) : ?>
+								
+									<a class="btn-link" href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( $link_title ); ?></a>
+									
+								<?php endif; ?>
 
-					<main id="main" class="m-all t-2of3 d-5of7 cf" role="main" itemscope itemprop="mainContentOfPage" itemtype="http://schema.org/Blog">
+							</div>
+						</div>
+					</div>
+		
+					<div class="project-imgs">
 
-						<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+					<?php
+						$project_image_1 = get_field( 'project_image_1' );
+						if ( $project_image_1 ) : ?>
+							<img class="project-image img-right" src="<?php echo esc_url( $project_image_1['url'] ); ?>" alt="<?php echo esc_attr( $project_image_1['alt'] ); ?>" />
+					<?php endif; ?>
+
+					<?php
+						$project_image_2 = get_field( 'project_image_2' );
+						if ( $project_image_2 ) : ?>
+							<img class="project-image" src="<?php echo esc_url( $project_image_2['url'] ); ?>" alt="<?php echo esc_attr( $project_image_2['alt'] ); ?>" />
+					<?php endif; ?>
+
+					</div>
+			
+				</div>
 
 							<?php
 								/*
@@ -22,10 +71,22 @@
 								 * If you want to remove post formats, just delete the post-formats folder and
 								 * replace the function below with the contents of the "format.php" file.
 								*/
-								get_template_part( 'post-formats/format', get_post_format() );
+								// get_template_part( 'post-formats/format', get_post_format() );
 							?>
 
 						<?php endwhile; ?>
+            
+    
+            <div class="project-navigation">
+                <a href="#">Previous project</a>
+                <a href="#">Next project</a>
+    
+            </div>
+        </div>
+    </div>
+
+
+						
 
 						<?php else : ?>
 
@@ -43,12 +104,5 @@
 
 						<?php endif; ?>
 
-					</main>
-
-					<?php get_sidebar(); ?>
-
-				</div>
-
-			</div>
 
 <?php get_footer(); ?>
